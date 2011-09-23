@@ -1,0 +1,18 @@
+== MCImageManager Symfony Authenticator
+The MCImageManager Symfony Authenticator allows the MCImageManager plugin to authenticate against Symfony. Although this authenticator currently assumes you have sfGuard plugin installed for symfony, it can easily be changed to authenticate via some other symfony authentication mechanism. 
+
+Currently only symfony 1.4 is supported (not Symfony 2).
+
+== Installation
+
+1. Copy SymfonyAuthenticator.php to the authenticator directory of MCImageManager (this would typically be in ./imagemanager/classes/Authenticators/)
+
+2. Change the config file to use the SymfonyAuthenticator instead of the default SessionAuthenticator. To do this, in ./imagemanager/config.php change:
+
+    $mcImageManagerConfig['authenticator'] = "SessionAuthenticator";
+    $mcImageManagerConfig['authenticator.login_page'] = "login_session_auth.php";
+
+   to
+
+    $mcImageManagerConfig['authenticator'] = "SymfonyAuthenticator";
+    $mcImageManagerConfig['authenticator.login_page'] = "/login";
