@@ -16,3 +16,18 @@ Currently only symfony 1.4 is supported (not Symfony 2).
 
     $mcImageManagerConfig['authenticator'] = "SymfonyAuthenticator";
     $mcImageManagerConfig['authenticator.login_page'] = "/login";
+
+3. Optional, change the app, environment and debug level to use for authentication
+
+    $mcImageManagerConfig['SymfonyAuthenticator.app']   = "frontend";
+    $mcImageManagerConfig['SymfonyAuthenticator.env']   = "prod";
+    $mcImageManagerConfig['SymfonyAuthenticator.debug'] = false;
+
+== Testing
+
+Point your browser to http://my.host.name/js/tiny_mce/plugins/imagemanager/pages/im/index.html
+
+NOTE: for testing purposes you might need to use
+
+    $mcImageManagerConfig['authenticator.login_page'] = "/frontend_dev.php/login";
+
