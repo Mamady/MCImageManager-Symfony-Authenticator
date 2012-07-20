@@ -10,20 +10,27 @@ class Moxiecode_SymfonyAuthenticator extends Moxiecode_ManagerPlugin {
             $im_config =& $man->getConfig();
 
             // assuming standard location for plugin web/js/tiny_mce/plugins/imagemanager/
-            define('SF_ROOT_DIR',    realpath(dirname(__file__).'/../../../../../../..'));
+            define('SF_ROOT_DIR', realpath(dirname(__FILE__).'/../../../..'));
+            if(!file_exists(SF_ROOT_DIR.'/apps')) {
+                echo 'ERROR: SF_ROOT_DIR misconfigured.';
+                exit;
+            }
 
             // symfony spoils $cmd, important variable for ImageManager action
             $temp_cmd = $GLOBALS['cmd'];
 
             require_once(SF_ROOT_DIR.'/config/ProjectConfiguration.class.php');
 
-            $configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'prod', false);
+            $app   = isset($im_config['SymfonyAuthenticator.app']) ? $im_config['SymfonyAuthenticator.app'] : 'frontend';
+            $env   = isset($im_config['SymfonyAuthenticator.env']) ? $im_config['SymfonyAuthenticator.env'] : 'prod';
+            $debug = isset($im_config['SymfonyAuthenticator.debug']) ? $im_config['SymfonyAuthenticator.debug'] : false;
+            $configuration = ProjectConfiguration::getApplicationConfiguration($app, $env, $debug);
 
             sfContext::createInstance($configuration);
 
             // check user is logged in
             if(!sfContext::getInstance()->getUser()->isAuthenticated()) {
-                header('Location: /login');
+                echo 'window.location = "'.$im_config['authenticator.login_page'].'";';
                 exit;
             }
 
